@@ -1,0 +1,709 @@
+/* ----------------------------------------------------------
+   1. RESET E VARIÁVEIS GLOBAIS
+   ---------------------------------------------------------- */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* Paleta principal */
+    --navy: #050d1a;
+    /* fundo azul-noite profundo */
+    --deep: #07102a;
+    /* variação mais clara do fundo */
+    --accent: #c9a96e;
+    /* dourado suave — destaque */
+    --accent-soft: #e8d5a8;
+    /* dourado mais claro — textos itálicos */
+    --text: #d4cfc4;
+    /* cor do texto principal */
+    --text-dim: #7a8aaa;
+    /* cor de texto secundário / sutil */
+
+    /* Tipografia */
+    --font-serif: 'Cormorant Garamond', serif;
+    --font-sans: 'Jost', sans-serif;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* ----------------------------------------------------------
+   2. BASE / BODY
+   ---------------------------------------------------------- */
+body {
+    background: var(--navy);
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-weight: 300;
+    overflow-x: hidden;
+}
+
+/* ----------------------------------------------------------
+   3. CANVAS DE ESTRELAS (fundo animado)
+   ---------------------------------------------------------- */
+#starfield {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+    /* não interfere nos cliques */
+}
+
+/* ----------------------------------------------------------
+   4. BOTÃO DE ÁUDIO (fixo no canto superior direito)
+   ---------------------------------------------------------- */
+#audio-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(201, 169, 110, 0.3);
+    color: var(--accent);
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    line-height: 1;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 0 0 0 rgba(201, 169, 110, 0);
+}
+
+#btn-icon-play {
+    font-size: 20px;
+    font-family: sans-serif;
+}
+
+#btn-icon-pause {
+    font-size: 16px;
+    font-family: sans-serif;
+    letter-spacing: -1px;
+}
+
+#audio-btn:hover {
+    background: rgba(201, 169, 110, 0.12);
+    box-shadow: 0 0 20px rgba(201, 169, 110, 0.2);
+    transform: scale(1.05);
+}
+
+/* Pulse sutil quando música está tocando */
+#audio-btn.playing {
+    animation: btn-pulse 2.5s ease-in-out infinite;
+}
+
+/* ----------------------------------------------------------
+   5. SEÇÃO HERO — tela inicial
+   ---------------------------------------------------------- */
+#hero {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+}
+
+/* Subtítulo pequeno em caps */
+.hero-eyebrow {
+    font-weight: 200;
+    font-size: clamp(10px, 2vw, 13px);
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--accent);
+    opacity: 0;
+    animation: fadeUp 1.2s 0.5s forwards;
+}
+
+/* Nome principal — grande e elegante */
+.hero-title {
+    font-family: var(--font-serif);
+    font-weight: 300;
+    font-size: clamp(3.5rem, 12vw, 8rem);
+    line-height: 1;
+    color: #fff;
+    margin: 1rem 0 0.5rem;
+    opacity: 0;
+    animation: fadeUp 1.2s 0.9s forwards;
+}
+
+/* Subtítulo em itálico */
+.hero-subtitle {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: clamp(1rem, 3vw, 1.5rem);
+    color: var(--accent-soft);
+    opacity: 0;
+    animation: fadeUp 1.2s 1.3s forwards;
+    margin-bottom: 3rem;
+}
+
+/* Parágrafo introdutório */
+.hero-intro {
+    max-width: 480px;
+    font-size: clamp(13px, 2.5vw, 15px);
+    line-height: 2;
+    color: rgba(255, 255, 255, 0.82);
+    /* branco legível no celular */
+    opacity: 0;
+    animation: fadeUp 1.2s 1.7s forwards;
+    margin-bottom: 3rem;
+}
+
+/* Call-to-action "rolar para descobrir" */
+.scroll-cta {
+    opacity: 0;
+    animation: fadeUp 1.2s 2.2s forwards;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: rgba(255, 255, 255, 0.65);
+    /* claro o suficiente para ler no celular */
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+}
+
+/* Linha que pulsa abaixo do texto */
+.scroll-line {
+    width: 1px;
+    height: 50px;
+    background: linear-gradient(to bottom, var(--accent), transparent);
+    animation: pulse-line 2s ease-in-out infinite;
+}
+
+/* ----------------------------------------------------------
+   6. SEÇÃO TIMELINE — container dos 4 momentos
+   ---------------------------------------------------------- */
+#timeline {
+    position: relative;
+    z-index: 1;
+    padding: 6rem 1.5rem;
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+/* Rótulo de seção */
+.section-label {
+    text-align: center;
+    font-size: 11px;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 5rem;
+    font-weight: 200;
+}
+
+/* ----------------------------------------------------------
+   7. CARTÃO DE CADA MOMENTO
+   ---------------------------------------------------------- */
+
+/* Layout em 3 colunas: conteúdo | linha central | imagem */
+.moment {
+    display: grid;
+    grid-template-columns: 1fr 60px 1fr;
+    gap: 0;
+    margin-bottom: 7rem;
+    align-items: start;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+/* Classe adicionada via JS quando entra no viewport */
+.moment.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Momentos pares: inverte a direção (imagem | linha | conteúdo) */
+.moment:nth-child(even) {
+    direction: rtl;
+    /* truque para espelhar sem mexer na estrutura */
+}
+
+.moment:nth-child(even)>* {
+    direction: ltr;
+    /* texto interno continua normal */
+}
+
+/* Área de texto do momento */
+.moment-content {
+    padding: 0 2rem;
+}
+
+/* Data em caps */
+.moment-date {
+    font-size: 11px;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 200;
+    margin-bottom: 0.75rem;
+}
+
+/* Rótulo "NASA Astronomy Picture of the Day" */
+.moment-nasa-label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 0.4rem;
+    opacity: 0.7;
+}
+
+/* Título da foto da NASA em itálico */
+.moment-nasa-title {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: clamp(1.1rem, 3vw, 1.6rem);
+    color: var(--accent-soft);
+    line-height: 1.3;
+    margin-bottom: 1.2rem;
+}
+
+/* Texto da mensagem romântica */
+.moment-text {
+    font-size: clamp(15px, 3vw, 17px);
+    line-height: 2;
+    color: var(--text);
+}
+
+/* Wrapper da imagem — clicável */
+.moment-img-wrap {
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    border-radius: 4px;
+}
+
+/* Borda sutil que brilha no hover */
+.moment-img-wrap::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 1px solid rgba(201, 169, 110, 0.15);
+    z-index: 2;
+    border-radius: 4px;
+    transition: border-color 0.4s ease;
+    pointer-events: none;
+}
+
+.moment-img-wrap:hover::before {
+    border-color: rgba(201, 169, 110, 0.5);
+}
+
+/* Foto real da NASA */
+.moment-img-wrap img {
+    width: 100%;
+    aspect-ratio: 3 / 2.6;
+    object-fit: cover;
+    display: block;
+    filter: brightness(0.78) saturate(0.9);
+    transition: filter 0.6s ease, transform 0.6s ease;
+    border-radius: 4px;
+}
+
+.moment-img-wrap:hover img {
+    filter: brightness(0.96) saturate(1.15);
+    transform: scale(1.03);
+}
+
+/* Overlay com texto "ver em tela cheia" */
+.img-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(5, 13, 26, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: 3;
+    border-radius: 4px;
+}
+
+.moment-img-wrap:hover .img-overlay {
+    opacity: 1;
+}
+
+.img-overlay span {
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--accent);
+}
+
+/* Linha vertical e ponto da timeline */
+.moment-line {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 8px;
+}
+
+.moment-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 12px var(--accent);
+    flex-shrink: 0;
+}
+
+.moment-vline {
+    width: 1px;
+    flex: 1;
+    min-height: 120px;
+    background: linear-gradient(to bottom, rgba(201, 169, 110, 0.4), transparent);
+    margin-top: 8px;
+}
+
+/* ----------------------------------------------------------
+   8. LIGHTBOX — foto em tela cheia com frase especial
+   ---------------------------------------------------------- */
+#lightbox {
+    display: none;
+    /* Escondido por padrão */
+    position: fixed;
+    inset: 0;
+    background: rgba(5, 13, 26, 0.97);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 2rem;
+    backdrop-filter: blur(4px);
+}
+
+/* Classe adicionada via JS para exibir */
+#lightbox.open {
+    display: flex;
+}
+
+/* Foto ampliada */
+#lightbox img {
+    max-width: min(720px, 90vw);
+    max-height: 62vh;
+    object-fit: contain;
+    border-radius: 4px;
+    box-shadow: 0 0 60px rgba(201, 169, 110, 0.1);
+}
+
+/* Frase especial abaixo da foto */
+#lightbox-msg {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: clamp(1.1rem, 4vw, 1.8rem);
+    color: var(--accent-soft);
+    text-align: center;
+    max-width: 580px;
+    line-height: 1.7;
+}
+
+/* Botão fechar */
+#lightbox-close {
+    font-size: 11px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: color 0.3s ease;
+}
+
+#lightbox-close:hover {
+    color: var(--accent);
+}
+
+/* ----------------------------------------------------------
+   9. SEÇÃO FINAL — botão do envelope
+   ---------------------------------------------------------- */
+#final {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 4rem 2rem 10rem;
+    max-width: 680px;
+    margin: 0 auto;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 1s ease, transform 1s ease;
+}
+
+#final.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Divisor decorativo com estrelinhas */
+.final-divider {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    justify-content: center;
+    margin-bottom: 4rem;
+}
+
+.final-divider-line {
+    width: 80px;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(201, 169, 110, 0.4));
+}
+
+.final-divider-line:last-child {
+    background: linear-gradient(to left, transparent, rgba(201, 169, 110, 0.4));
+}
+
+.final-divider-star {
+    color: var(--accent);
+    font-size: 14px;
+}
+
+/* Título da seção final */
+.final-heading {
+    font-family: var(--font-serif);
+    font-weight: 300;
+    font-size: clamp(2rem, 8vw, 4rem);
+    color: #fff;
+    line-height: 1.15;
+    margin-bottom: 2rem;
+}
+
+/* Texto explicativo */
+.final-text {
+    font-size: clamp(14px, 2.5vw, 16px);
+    line-height: 2.1;
+    color: rgba(255, 255, 255, 0.82);
+    /* branco legível no celular */
+    margin-bottom: 3rem;
+}
+
+/* Botão "Abrir o envelope final" */
+.final-cta {
+    display: inline-block;
+    border: 1px solid rgba(201, 169, 110, 0.5);
+    color: var(--accent);
+    padding: 1.1rem 3rem;
+    font-family: var(--font-sans);
+    font-weight: 200;
+    font-size: 12px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    background: transparent;
+    animation: glow-pulse 3s ease-in-out infinite;
+}
+
+.final-cta:hover {
+    background: rgba(201, 169, 110, 0.08);
+    border-color: var(--accent);
+    box-shadow: 0 0 30px rgba(201, 169, 110, 0.18);
+}
+
+/* ----------------------------------------------------------
+   10. REVEAL — mensagem revelada ao abrir o envelope
+   ---------------------------------------------------------- */
+#reveal {
+    display: none;
+    /* Escondido por padrão */
+    margin-top: 4rem;
+    opacity: 0;
+    transition: opacity 1.5s ease;
+}
+
+#reveal.open {
+    display: block;
+}
+
+#reveal.visible {
+    opacity: 1;
+}
+
+/* Texto da mensagem em itálico */
+.reveal-text {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: clamp(1.3rem, 5vw, 2.2rem);
+    color: var(--accent-soft);
+    line-height: 1.9;
+    margin-bottom: 2.5rem;
+}
+
+/* Foto especial — estilo polaroid */
+.reveal-photo {
+    margin: 0 auto 3rem;
+    width: min(240px, 70vw);
+    background: #fff;
+    padding: 10px 10px 32px;   /* espaço extra embaixo = borda polaroid */
+    border-radius: 2px;
+    box-shadow:
+        0 6px 24px rgba(0, 0, 0, 0.45),
+        0 0 0 1px rgba(255, 255, 255, 0.06);
+    transform: rotate(-2deg);
+    transition: transform 0.4s ease;
+}
+
+.reveal-photo:hover {
+    transform: rotate(0deg) scale(1.03);
+}
+
+.reveal-photo img {
+    width: 100%;
+    aspect-ratio: 1 / 1;      /* quadrado, clássico de polaroid */
+    display: block;
+    object-fit: cover;
+    filter: brightness(0.96) saturate(0.9);
+}
+
+/* Informações de data e assinatura */
+.reveal-date-info {
+    font-size: 12px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    line-height: 2.2;
+}
+
+.reveal-date-info strong {
+    color: var(--accent);
+    font-weight: 300;
+}
+
+/* ----------------------------------------------------------
+   11. CHUVA DE ESTRELINHAS DOURADAS
+   ---------------------------------------------------------- */
+.star-particle {
+    position: fixed;
+    top: -20px;
+    pointer-events: none;
+    z-index: 300;
+    font-size: 18px;
+    animation: fall linear forwards;
+    /* duração e posição são definidas via JS */
+}
+
+/* ----------------------------------------------------------
+   12. ANIMAÇÕES KEYFRAMES
+   ---------------------------------------------------------- */
+
+/* Fade + subida para entrar na tela */
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(24px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Pulsação da linha de scroll */
+@keyframes pulse-line {
+
+    0%,
+    100% {
+        opacity: 0.4;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+/* Brilho pulsante no botão final */
+@keyframes glow-pulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 0 rgba(201, 169, 110, 0);
+    }
+
+    50% {
+        box-shadow: 0 0 25px rgba(201, 169, 110, 0.22);
+    }
+}
+
+/* Queda das estrelinhas */
+@keyframes fall {
+    to {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Pulsação do botão de áudio quando tocando */
+@keyframes btn-pulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 0 0 rgba(201, 169, 110, 0.3);
+    }
+
+    50% {
+        box-shadow: 0 0 0 8px rgba(201, 169, 110, 0);
+    }
+}
+
+/* ----------------------------------------------------------
+   13. RESPONSIVO — celular
+   ---------------------------------------------------------- */
+@media (max-width: 640px) {
+
+    /* Timeline muda para 2 colunas: linha | conteúdo */
+    .moment {
+        grid-template-columns: 24px 1fr;
+        grid-template-rows: auto auto;
+    }
+
+    /* Momentos pares voltam ao normal no mobile */
+    .moment:nth-child(even) {
+        direction: ltr;
+    }
+
+    .moment-line {
+        grid-row: 1 / 3;
+        grid-column: 1;
+    }
+
+    /* Imagem vem antes do texto */
+    .moment-img-wrap {
+        grid-column: 2;
+        margin-bottom: 1.5rem;
+    }
+
+    .moment-content {
+        grid-column: 2;
+        padding: 0 0 0 1rem;
+    }
+
+    .moment-vline {
+        min-height: 60px;
+    }
+
+    /* Lightbox ocupa mais espaço vertical no mobile */
+    #lightbox img {
+        max-height: 45vh;
+    }
+}

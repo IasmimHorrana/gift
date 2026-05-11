@@ -1,0 +1,21 @@
+# ─── Áudio (arquivos grandes — hospedar externamente) ───────────────────
+*.mp3
+*.mp4
+*.wav
+*.ogg
+*.flac
+*.aac
+
+# ─── Sistema operacional ─────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ─── Editores ────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.suo
+*.user
+
+# ─── Node (caso use algum tooling no futuro) ─────────────────────────────
+node_modules/

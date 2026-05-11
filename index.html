@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- ===== SEO / Metadados ===== -->
+    <!-- Altere o título e a descrição se quiser personalizar -->
+    <title>✦ Para meu amor ✦</title>
+    <meta name="description" content="Cada momento nosso foi fotografado pela NASA. Aqui está o que o universo viu.">
+
+    <!-- ===== Fontes do Google ===== -->
+    <!-- Cormorant Garamond: serifada elegante para títulos e itálicos -->
+    <!-- Jost: sem serifa moderna para texto corrido -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400&display=swap"
+        rel="stylesheet">
+
+    <!-- ===== Estilos principais ===== -->
+    <!-- Para alterar cores, fontes ou layout → assets/css/style.css -->
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+
+    <!-- ============================================================
+     CANVAS — Campo de estrelas animadas (fundo)
+     Controlado por: assets/js/stars.js
+     ============================================================ -->
+    <canvas id="starfield"></canvas>
+
+
+    <!-- ============================================================
+     BOTÃO DE ÁUDIO — fixo no canto superior direito
+     Controlado por: assets/js/audio.js
+     ➜ Para trocar a música: altere o src do <source> abaixo
+     ============================================================ -->
+    <button id="audio-btn" title="Ligar música" onclick="toggleAudio()">
+        <span id="btn-icon-play">♪</span>
+        <span id="btn-icon-pause" style="display:none">⏸</span>
+    </button>
+
+    <!-- Áudio de fundo — piano suave -->
+    <!-- ➜ Para trocar a música: substitua o src abaixo por outro .mp3 -->
+    <audio id="bg-audio" loop>
+        <!-- ➔ ALTERE: nome do arquivo de música se mudar o .mp3 -->
+        <source src="EpicSpaceMusic.mp3" type="audio/mpeg">
+    </audio>
+
+
+    <!-- ============================================================
+     LIGHTBOX — Foto em tela cheia ao clicar em cada imagem
+     Controlado por: assets/js/timeline.js
+     ➜ Para alterar as frases especiais de cada foto:
+       edite o array `moments` em assets/js/timeline.js
+     ============================================================ -->
+    <div id="lightbox" role="dialog" aria-modal="true" aria-label="Foto ampliada">
+        <img id="lightbox-img" src="" alt="">
+        <div id="lightbox-msg"></div>
+        <!-- Botão fechar -->
+        <div id="lightbox-close" role="button" tabindex="0" onclick="closeLightbox()">
+            ✕ &nbsp; fechar
+        </div>
+    </div>
+
+
+    <!-- ============================================================
+     SEÇÃO 1 — HERO
+     Tela inicial de boas-vindas com animação de entrada
+     ➜ Para alterar o nome: troque "Vitória" no <h1>
+     ➜ Para alterar o texto introdutório: edite .hero-intro
+     ============================================================ -->
+    <section id="hero" aria-label="Bem-vindo">
+        <h1 class="hero-title">Iasmim & Vitoria</h1>
+
+        <!-- Subtítulo pequeno (eyebrow) -->
+        <p class="hero-eyebrow">Uma história escrita nas estrelas</p>
+
+        <!-- Parágrafo introdutório -->
+        <p class="hero-intro">
+            A cada momento importante que vivemos juntas,<br>
+            a NASA estava olhando para o céu e fotografando o universo.<br>
+            Aqui está o que as estrelas viram.
+        </p>
+
+        <!-- Call-to-action: rolar para descobrir -->
+        <div class="scroll-cta" aria-hidden="true">
+            <span>rolar para descobrir</span>
+            <div class="scroll-line"></div>
+        </div>
+
+    </section>
+
+
+    <!-- ============================================================
+     SEÇÃO 2 — TIMELINE
+     Os 4 momentos especiais com fotos reais da NASA
+     Controlado por: assets/js/timeline.js
+
+     Estrutura de cada .moment:
+     ┌────────────────┬────────┬─────────────────────┐
+     │ .moment-content│  linha │  .moment-img-wrap   │
+     │  (texto)       │ vertical│  (imagem clicável) │
+     └────────────────┴────────┴─────────────────────┘
+     Momentos pares têm a ordem invertida via CSS (direction: rtl)
+
+     ➜ Para alterar datas, textos ou imagens:
+       procure os comentários "ALTERE" dentro de cada .moment
+     ============================================================ -->
+    <section id="timeline" aria-label="Nossos momentos">
+
+        <!-- Rótulo de seção -->
+        <p class="section-label">quatro momentos · quatro fotos do universo</p>
+
+        <!-- --------------------------------------------------------
+         MOMENTO 1 — 03/11/2025
+         NASA APOD: Eclipse total lunar + Via Láctea + Luz Zodiacal
+         "Quando te vi pela primeira vez"
+         -------------------------------------------------------- -->
+        <article class="moment" data-index="0">
+
+            <!-- Coluna de texto -->
+            <div class="moment-content">
+                <!-- ➜ ALTERE: data do momento -->
+                <p class="moment-date">03 de novembro de 2025</p>
+
+                <!-- Rótulo fixo da NASA -->
+                <p class="moment-nasa-label">NASA Astronomy Picture of the Day</p>
+
+                <!-- ➜ ALTERE: título da foto da NASA daquele dia -->
+                <p class="moment-nasa-title">Total Lunar Eclipse Over Milky Way and Zodiacal Light</p>
+
+                <!-- ➜ ALTERE: mensagem romântica do momento -->
+                <p class="moment-text">
+                    Naquela noite, a Lua mergulhou na sombra da Terra e se acendeu
+                    em laranja — a mesma cor do sol que se põe. E no mesmo céu,
+                    a Via Láctea e a luz zodiacal se cruzavam em dupla hélice,
+                    como se o universo inteiro tivesse se arrumado para me mostrar
+                    que aquele era um momento que não poderia passar despercebido.
+                    Foi quando eu te vi pela primeira vez.
+                </p>
+            </div>
+
+            <!-- Linha vertical da timeline -->
+            <div class="moment-line" aria-hidden="true">
+                <div class="moment-dot"></div>
+                <div class="moment-vline"></div>
+            </div>
+
+            <!-- Imagem clicável — abre o lightbox -->
+            <!-- ➜ ALTERE: src da imagem da NASA (ou use URL direta do APOD) -->
+            <div class="moment-img-wrap" onclick="openLightbox(0)" role="button" tabindex="0"
+                aria-label="Ampliar foto: Eclipse lunar + Via Láctea + Luz Zodiacal">
+                <img src="assets/images/01.jpg"
+                    alt="Eclipse total lunar com Via Láctea e luz zodiacal — NASA APOD 03/11/2025" loading="lazy">
+                <!-- Overlay ao passar o mouse -->
+                <div class="img-overlay" aria-hidden="true">
+                    <span>ver em tela cheia</span>
+                </div>
+            </div>
+
+        </article>
+
+
+        <!-- --------------------------------------------------------
+         MOMENTO 2 — 20/12/2025
+         NASA APOD: A Solstice Sun Tattoo
+         "Quando nos apaixonamos"
+         -------------------------------------------------------- -->
+        <article class="moment" data-index="1">
+
+            <!-- Coluna de texto -->
+            <div class="moment-content">
+                <!-- ➜ ALTERE: data do momento -->
+                <p class="moment-date">20 de dezembro de 2025</p>
+
+                <p class="moment-nasa-label">NASA Astronomy Picture of the Day</p>
+
+                <!-- ➜ ALTERE: título da foto da NASA daquele dia -->
+                <p class="moment-nasa-title">A Solstice Sun Tattoo</p>
+
+                <!-- ➜ ALTERE: mensagem romântica do momento -->
+                <p class="moment-text">
+                    No solstício de inverno, quando o sol desenha seu caminho mais curto
+                    pelo céu, percebemos que algo entre nós era diferente.
+                    O sol parou o céu só para nos ver olhar um para o outro.
+                </p>
+            </div>
+
+            <!-- Linha vertical da timeline -->
+            <div class="moment-line" aria-hidden="true">
+                <div class="moment-dot"></div>
+                <div class="moment-vline"></div>
+            </div>
+
+            <!-- Imagem clicável -->
+            <!-- ➜ ALTERE: URL da foto da NASA -->
+            <div class="moment-img-wrap" onclick="openLightbox(1)" role="button" tabindex="0"
+                aria-label="Ampliar foto: Solstice Sun Tattoo">
+                <img src="assets/images/02.jpeg" alt="A Solstice Sun Tattoo — NASA APOD 20/12/2025" loading="lazy">
+                <div class="img-overlay" aria-hidden="true">
+                    <span>ver em tela cheia</span>
+                </div>
+            </div>
+
+        </article>
+
+
+        <!-- --------------------------------------------------------
+         MOMENTO 3 — 10/01/2026
+         NASA APOD: Júpiter com a Grande Mancha Vermelha
+         "Nosso primeiro beijo"
+         -------------------------------------------------------- -->
+        <article class="moment" data-index="2">
+
+            <!-- Coluna de texto -->
+            <div class="moment-content">
+                <!-- ➜ ALTERE: data do momento -->
+                <p class="moment-date">10 de janeiro de 2026</p>
+
+                <p class="moment-nasa-label">NASA Astronomy Picture of the Day</p>
+
+                <!-- ➜ ALTERE: título da foto da NASA daquele dia -->
+                <p class="moment-nasa-title">Jupiter and the Great Red Spot</p>
+
+                <!-- ➜ ALTERE: mensagem romântica do momento -->
+                <p class="moment-text">
+                    A Grande Mancha Vermelha de Júpiter existe há séculos —
+                    uma tempestade que nunca para. Nosso primeiro beijo também
+                    foi assim: algo que começou e que eu não consigo mais imaginar
+                    que um dia não existiu.
+                </p>
+            </div>
+
+            <!-- Linha vertical da timeline -->
+            <div class="moment-line" aria-hidden="true">
+                <div class="moment-dot"></div>
+                <div class="moment-vline"></div>
+            </div>
+
+            <!-- Imagem clicável -->
+            <!-- ➜ ALTERE: URL da foto da NASA -->
+            <div class="moment-img-wrap" onclick="openLightbox(2)" role="button" tabindex="0"
+                aria-label="Ampliar foto: Júpiter com a Grande Mancha Vermelha">
+                <img src="assets/images/03.jpg" alt="Júpiter com a Grande Mancha Vermelha — NASA APOD 10/01/2026"
+                    loading="lazy">
+                <div class="img-overlay" aria-hidden="true">
+                    <span>ver em tela cheia</span>
+                </div>
+            </div>
+
+        </article>
+
+
+        <!-- --------------------------------------------------------
+         MOMENTO 4 — 14/02/2026
+         NASA APOD: "Roses are Red" (Dia dos Namorados)
+         "Pedido de namoro"
+         -------------------------------------------------------- -->
+        <article class="moment" data-index="3">
+
+            <!-- Coluna de texto -->
+            <div class="moment-content">
+                <!-- ➜ ALTERE: data do momento -->
+                <p class="moment-date">14 de fevereiro de 2026</p>
+
+                <p class="moment-nasa-label">NASA Astronomy Picture of the Day</p>
+
+                <!-- ➜ ALTERE: título da foto da NASA daquele dia -->
+                <p class="moment-nasa-title">Roses are Red</p>
+
+                <!-- ➜ ALTERE: mensagem romântica do momento -->
+                <p class="moment-text">
+                    No Dia dos Namorados, a NASA escolheu esse título. Literalmente.
+                    Como se o universo inteiro soubesse que eu ia te pedir em namoro
+                    nesse dia e quisesse deixar registrado nas estrelas antes de mim.
+                </p>
+            </div>
+
+            <!-- Linha vertical da timeline -->
+            <div class="moment-line" aria-hidden="true">
+                <div class="moment-dot"></div>
+                <div class="moment-vline"></div>
+            </div>
+
+            <!-- Imagem clicável -->
+            <!-- ➜ ALTERE: URL da foto da NASA -->
+            <div class="moment-img-wrap" onclick="openLightbox(3)" role="button" tabindex="0"
+                aria-label="Ampliar foto: Roses are Red — NASA">
+                <img src="assets/images/04.jpg" alt="Roses are Red — NASA APOD 14/02/2026" loading="lazy">
+                <div class="img-overlay" aria-hidden="true">
+                    <span>ver em tela cheia</span>
+                </div>
+            </div>
+
+        </article>
+
+    </section>
+
+
+    <!-- ============================================================
+     SEÇÃO 3 — FINAL
+     Botão "Abrir o envelope final" + mensagem revelada
+     Controlado por: assets/js/envelope.js
+
+     ➜ Para alterar a mensagem final revelada:
+       edite o conteúdo dentro de #reveal abaixo
+     ============================================================ -->
+    <section id="final" aria-label="Mensagem final">
+
+        <!-- Divisor decorativo -->
+        <div class="final-divider" aria-hidden="true">
+            <div class="final-divider-line"></div>
+            <span class="final-divider-star">✦</span>
+            <span class="final-divider-star">✦</span>
+            <span class="final-divider-star">✦</span>
+            <div class="final-divider-line"></div>
+        </div>
+
+        <!-- Título da seção final -->
+        <!-- ➜ ALTERE: título do envelope -->
+        <h2 class="final-heading">
+            Há uma última<br>coisa que quero te dizer
+        </h2>
+
+        <!-- Texto antes de abrir -->
+        <!-- ➜ ALTERE: texto introdutório antes do botão -->
+        <p class="final-text">
+            O universo registrou cada um dos nossos momentos.<br>
+            Mas existe uma coisa que nenhum telescópio consegue capturar —<br>
+            só eu posso te contar.
+        </p>
+
+        <!-- Botão de abrir o envelope -->
+        <button class="final-cta" onclick="openEnvelope()" id="btn-envelope">
+            ✦ &nbsp; abrir o envelope final &nbsp; ✦
+        </button>
+
+
+        <!-- --------------------------------------------------------
+         MENSAGEM REVELADA — aparece ao clicar no botão acima
+         ➜ ALTERE: toda a mensagem aqui dentro
+         -------------------------------------------------------- -->
+        <div id="reveal" aria-live="polite">
+
+            <!-- ➜ ALTERE: mensagem principal do quadro -->
+            <p class="reveal-text">
+                Você é tudo que eu sempre quis,<br>
+                e eu amo cada momento ao seu lado.<br>
+                Obrigada por mais um mês juntas.<br>
+                Espero que você esteja feliz<br>
+                como eu estou ao seu lado.<br>
+                E eu sou muito grata por cada detalhe que nos trouxe até aqui.
+            </p>
+
+            <!-- Foto especial — aparece junto com a mensagem -->
+            <div class="reveal-photo">
+                <img src="assets/images/minha_vida.jpeg" alt="Nós duas" loading="lazy">
+            </div>
+
+        </div>
+        <!-- /reveal -->
+
+    </section>
+    <!-- /final -->
+
+
+    <!-- ============================================================
+     SCRIPTS — carregados no final do body para melhor performance
+     Ordem importa: stars.js → audio.js → timeline.js → envelope.js
+     ============================================================ -->
+
+    <!-- Campo de estrelas (precisa do canvas já no DOM) -->
+    <script src="assets/js/stars.js"></script>
+
+    <!-- Controle do botão de áudio -->
+    <script src="assets/js/audio.js"></script>
+
+    <!-- Scroll reveal dos momentos + lightbox -->
+    <script src="assets/js/timeline.js"></script>
+
+    <!-- Botão do envelope final + chuva de estrelinhas -->
+    <script src="assets/js/envelope.js"></script>
+
+</body>
+
+</html>
