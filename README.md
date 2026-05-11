@@ -1,5 +1,3 @@
-# Para Vitória ✦ — Página de Presente Romântica
-
 Página web estática para hospedar no **Netlify** e compartilhar via QR code.
 
 ## 🗂 Estrutura do Projeto
@@ -17,23 +15,6 @@ gift/
 │       └── envelope.js     ← Botão final + chuva de estrelinhas douradas
 └── README.md
 ```
-
-## 🎨 O que a página faz
-
-- **Fundo azul-noite** com estrelas animadas piscando em tempo real
-- **Música de piano suave** com botão ♪ para ligar/desligar
-- **Timeline elegante** com 4 momentos especiais, cada um com a foto real da NASA
-- **Ao clicar na foto** → abre em tela cheia com uma frase especial
-- **Botão "abrir o envelope final"** → revela a mensagem com estrelinhas douradas caindo
-
-## 📅 Os 4 Momentos
-
-| Data | Foto da NASA | Ocasião |
-|------|-------------|---------|
-| 04/11/2025 | Comet Lemmon Crossing the Sky | Quando a vi pela 1ª vez |
-| 20/12/2025 | A Solstice Sun Tattoo | Quando nos apaixonamos |
-| 10/01/2026 | Jupiter and the Great Red Spot | 1º beijo |
-| 14/02/2026 | Roses are Red | Pedido de namoro |
 
 ## ✏️ Como personalizar
 
