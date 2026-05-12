@@ -25,7 +25,7 @@
         },
         {
             /* 10/01/2026 — Júpiter com a Grande Mancha Vermelha */
-            lightboxMsg: "Júpiter guardou sua Grande Mancha por séculos. Eu vou guardar esse beijo por muito mais tempo que isso."
+            lightboxMsg: "Júpiter tem o maior campo magnético do nosso sistema. Mas, naquele dia, eu descobri que a maior força de atração do universo era o nosso beijo."
         },
         {
             /* 14/02/2026 — Roses are Red */

@@ -1,4 +1,7 @@
 # ─── Áudio (arquivos grandes — hospedar externamente) ───────────────────
+# ATENÇÃO: O GitHub só aceita arquivos até 100MB.
+# Para enviar a música para o GitHub Pages, você deve comprimir o arquivo
+# e depois remover ou comentar (com #) a linha '*.mp3' abaixo.
 *.mp3
 *.mp4
 *.wav
